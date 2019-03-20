@@ -44,22 +44,20 @@ Promise.prototype.then = function(onFulfiled, onRejected) {
           let x = onFulfiled(value)
           resolvePromise(promise2, x, resolve, reject)
         }catch(e) {
-
           reject(e)
-        }
-          
-        })
-        this.RejectCallbacks.push(err => {
-          try{
-            let x = onRejected(err)
-            resolvePromise(promise2, x, resolve, reject)
-          }catch(e) {
-            reject(e)
-          } 
+        } 
+      })
+      this.RejectCallbacks.push(err => {
+        try{
+          let x = onRejected(err)
+          resolvePromise(promise2, x, resolve, reject)
+        }catch(e) {
+          reject(e)
+        } 
       })
     })
   }
-          // 若是没有异步任务的话就直接执行
+  // 若是没有异步任务的话就直接执行
   if(this.status === FULFILLED) {
     promise2 = new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -124,11 +122,11 @@ function resolvePromise(promise2, x, resolve, reject) {
     resolve(x)
   }
 }
-
+// catch方法
 Promise.prototype.catch = function(onRejected) {
   return this.then(null, onRejected)
 }
-
+// all方法
 Promise.all = function(promise2) {
   return new Promise((resolve, reject) => {
     let count = 0
@@ -139,7 +137,7 @@ Promise.all = function(promise2) {
     }, reject)
   })
 }
-
+// race方法
 Promise.race = function(promises) {
   return new Promise((resolve, reject) => {
     promises.forEach(p => {
