@@ -7,6 +7,8 @@ function Promise(fn) {
   self.status = PENDING
   self.FulfiledCallbacks = []
   self.RejectCallbacks = []
+  // then里的回调时用户自己写的，不能保证是同步还是异步，为了保证测试用例结果的一致性，
+  // 全部改成异步, 后边的then方法里也是
   function resolve(value) {
     setTimeout(function() {
       if(self.status === PENDING) {
@@ -32,7 +34,8 @@ function Promise(fn) {
   }
 }
 Promise.prototype.then = function(onFulfiled, onRejected) {
-  // 如果成功或失败的回调没有传， 则表示这个then没有任何逻辑，只会把值往后传
+  // 如果成功或失败的回调没有传， 则表示这个then没有任何逻辑，把值往后传
+  // 这就是promise中值的穿透
   onFulfiled = typeof onFulfiled == 'function' ? onFulfiled : v => v
   onRejected = typeof onRejected == 'function' ? onRejected : err => { throw err }
   let promise2 
