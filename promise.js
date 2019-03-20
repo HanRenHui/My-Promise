@@ -128,6 +128,26 @@ function resolvePromise(promise2, x, resolve, reject) {
 Promise.prototype.catch = function(onRejected) {
   return this.then(null, onRejected)
 }
+
+Promise.all = function(promise2) {
+  return new Promise((resolve, reject) => {
+    let count = 0
+    let dataArr
+    promise2.forEach((p, index) => {
+      p.then(data => {dataArr[index] = data})
+      if( ++count === promise2.length) resolve(dataArr)
+    }, reject)
+  })
+}
+
+Promise.race = function(promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach(p => {
+      p.then(resolve, reject)
+    })
+  })
+}
+
 Promise.deferred = Promise.defer = function() {
   var defer ={}
   defer.promise = new Promise((resolve, reject) => {
