@@ -148,7 +148,7 @@ Promise.race = function(promises) {
     })
   })
 }
-
+// 测试
 Promise.deferred = Promise.defer = function() {
   var defer ={}
   defer.promise = new Promise((resolve, reject) => {
